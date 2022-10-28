@@ -7,8 +7,11 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,8 +27,9 @@ public class Measurement {
 
     @Column(name = "value", precision = 7, scale = 2)
     @NotNull(message = "Value should not be empty")
-    @Size(min = -100, max = 100, message = "Value should be between -100 and 100")
-    private Float value;
+    @DecimalMin(value = "-100", message = "Value should be greater than -100")
+    @DecimalMax(value = "100", message = "Value should be less than 100")
+    private BigDecimal value;
 
     @Column(name = "raining")
     @NotNull(message = "Is raining should not be empty")
